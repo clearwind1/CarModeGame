@@ -42,6 +42,12 @@ class Main extends egret.DisplayObjectContainer {
 
     private onAddToStage(event:egret.Event) {
         //设置加载进度界面
+
+
+        GameUtil.GameScene.init(this.stage);
+        GameUtil.GameScene.runscene(new GameUtil.LoadingPanel(this.createGameScene,this));
+
+        /*
         //Config to load process interface
         this.loadingView = new LoadingUI();
         this.stage.addChild(this.loadingView);
@@ -50,6 +56,7 @@ class Main extends egret.DisplayObjectContainer {
         //initiate Resource loading library
         RES.addEventListener(RES.ResourceEvent.CONFIG_COMPLETE, this.onConfigComplete, this);
         RES.loadConfig("resource/resource.json", "resource/");
+        */
     }
 
     /**
@@ -107,6 +114,11 @@ class Main extends egret.DisplayObjectContainer {
      * Create a game scene
      */
     private createGameScene():void {
+
+
+        GameUtil.GameScene.runscene(new CarModeGame.StartGameScene());
+
+        return;
         var sky:egret.Bitmap = this.createBitmapByName("bgImage");
         this.addChild(sky);
         var stageW:number = this.stage.stageWidth;

@@ -35,13 +35,18 @@ var Main = (function (_super) {
     var __egretProto__ = Main.prototype;
     __egretProto__.onAddToStage = function (event) {
         //设置加载进度界面
+        GameUtil.GameScene.init(this.stage);
+        GameUtil.GameScene.runscene(new GameUtil.LoadingPanel(this.createGameScene, this));
+        /*
         //Config to load process interface
         this.loadingView = new LoadingUI();
         this.stage.addChild(this.loadingView);
+
         //初始化Resource资源加载库
         //initiate Resource loading library
         RES.addEventListener(RES.ResourceEvent.CONFIG_COMPLETE, this.onConfigComplete, this);
         RES.loadConfig("resource/resource.json", "resource/");
+        */
     };
     /**
      * 配置文件加载完成,开始预加载preload资源组。
@@ -92,6 +97,8 @@ var Main = (function (_super) {
      * Create a game scene
      */
     __egretProto__.createGameScene = function () {
+        GameUtil.GameScene.runscene(new CarModeGame.StartGameScene());
+        return;
         var sky = this.createBitmapByName("bgImage");
         this.addChild(sky);
         var stageW = this.stage.stageWidth;

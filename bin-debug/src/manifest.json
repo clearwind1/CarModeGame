@@ -1,4 +1,8 @@
 [
+	"GameUtils/BassPanel.ts",
+	"GameUtils/utils.ts",
 	"LoadingUI.ts",
+	"CarMGame/StartGameScene.ts",
+	"GameUtils/LoadingPanel.ts",
 	"Main.ts"
 ]
