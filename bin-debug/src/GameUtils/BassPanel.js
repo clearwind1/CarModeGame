@@ -32,14 +32,45 @@ var GameUtil;
         GameScene.init = function (stage) {
             this.MainStage = stage;
         };
-        GameScene.runscene = function (scene) {
-            if (this.curScene != null) {
-                this.MainStage.removeChild(this.curScene);
+        GameScene.runscene = function (scene, transtype, duration) {
+            if (transtype === void 0) { transtype = GameUtil.GameConfig.NullAction; }
+            if (duration === void 0) { duration = 800; }
+            if (this.curScene == null) {
+                this.curScene = scene;
+                this.MainStage.addChild(this.curScene);
+                return;
             }
-            this.curScene = scene;
-            this.MainStage.addChild(this.curScene);
+            if (transtype == GameUtil.GameConfig.NullAction) {
+                if (this.curScene != null) {
+                    this.MainStage.removeChild(this.curScene);
+                }
+                this.curScene = scene;
+                this.MainStage.addChild(this.curScene);
+                return;
+            }
+            else {
+                this.nextScene = scene;
+                this.MainStage.addChild(this.nextScene);
+                //场景动画
+                if (transtype == GameUtil.GameConfig.TransAlpha) {
+                    this.nextScene.alpha = 0;
+                    egret.Tween.get(this.curScene).to({ alpha: 0 }, duration);
+                    egret.Tween.get(this.nextScene).to({ alpha: 1 }, duration);
+                }
+                if (transtype == GameUtil.GameConfig.CrossLeft) {
+                    this.nextScene.x = -this.MainStage.stageWidth;
+                    egret.Tween.get(this.curScene).to({ x: this.MainStage.stageWidth }, duration);
+                    egret.Tween.get(this.nextScene).to({ x: 0 }, duration);
+                }
+                var local = this;
+                egret.setTimeout(function () {
+                    local.MainStage.removeChild(local.curScene);
+                    local.curScene = local.nextScene;
+                }, this, duration);
+            }
         };
         GameScene.curScene = null;
+        GameScene.nextScene = null;
         GameScene.MainStage = null;
         return GameScene;
     })();
